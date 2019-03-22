@@ -39,9 +39,9 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initComponents();
-        if(checkInternetConnection())
+        if(checkInternetConnection()) // checkInternetConnection
         {
-            GetJson getJson = new GetJson();
+            GetJson getJson = new GetJson(); // this class GetJson exists at the end of this class
             getJson.start();
         }
         else {
@@ -51,12 +51,13 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        handler = new MyHandler(this);
+        handler = new MyHandler(this); // send Object of this Activity to Handler to
+		// help it updating the UI
     }
 
-    public void showData(int counter)
+    public void showData(int counter) // this method called from the Handler
     {
-        ClearText();
+        ClearText(); // method to clear textViews
         txtRank.setText(arrayList.get(counter).getRank());
         txtCountry.setText(arrayList.get(counter).getCountry());
         txtPopulation.setText(arrayList.get(counter).getPopulation());
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity
         task.execute(arrayList.get(counter).getFlag());
     }
 
-    public void initComponents()
+    public void initComponents() // initComponents
     {
         txtRank=(TextView)findViewById(R.id.txtRank);
         txtCountry=(TextView)findViewById(R.id.txtCountry);

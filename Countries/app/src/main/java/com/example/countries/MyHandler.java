@@ -19,7 +19,11 @@ public class MyHandler extends Handler
     @Override
     public void handleMessage(Message msg)
     {
-        mainActivity.showData(mainActivity.counter);
+		/*
+		call method showData in MainActivity which updates UI
+		*/
+        mainActivity.showData(mainActivity.counter); 
+		// when I click Button Next
         mainActivity.btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -33,6 +37,7 @@ public class MyHandler extends Handler
                 }
             }
         });
+		// when I click Button Previous
         mainActivity.btnPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

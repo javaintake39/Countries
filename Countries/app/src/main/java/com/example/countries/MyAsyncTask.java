@@ -12,7 +12,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-
+// MyAsyncTask takes String : URL of Image and returns Bitmap Image as Result
 public class MyAsyncTask extends AsyncTask<String, Void, Bitmap>
 {
    MainActivity mainActivity;
@@ -20,6 +20,7 @@ public class MyAsyncTask extends AsyncTask<String, Void, Bitmap>
     {
         this.mainActivity = mainActivity;
     }
+	// doInBackground takes url of image & returns Bitmap
     @Override
     protected Bitmap doInBackground(String... url)
     {
@@ -31,11 +32,12 @@ public class MyAsyncTask extends AsyncTask<String, Void, Bitmap>
         }
         return result;
     }
+	// after Downloading Image 
     @Override
     protected void onPostExecute(Bitmap bitmap)
     {
         super.onPostExecute(bitmap);
-        mainActivity.imgFlag.setImageBitmap(bitmap);
+        mainActivity.imgFlag.setImageBitmap(bitmap); // set Downloaded image into it's place in mainActivity
     }
     private Bitmap downloadImage(String url) throws IOException {
         Bitmap result=null;

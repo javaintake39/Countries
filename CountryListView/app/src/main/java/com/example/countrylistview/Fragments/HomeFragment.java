@@ -2,9 +2,11 @@ package com.example.countrylistview.Fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +39,7 @@ public class HomeFragment extends Fragment
     String [ ] Countries=new String[10];
     ListView listview;
     ArrayAdapter<String> adapter;
-
+    Communicator communicator;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -50,22 +52,47 @@ public class HomeFragment extends Fragment
             GetJson getJson = new GetJson(); // this class GetJson exists at the end of this class
             getJson.start();
             getJson.join();
-        } catch (InterruptedException e) {
+        } catch (InterruptedException e)
+        {
             e.printStackTrace();
         }
         listview = (ListView) view.findViewById(R.id.listCountries);
         adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, android.R.id.text1, Countries);
         listview.setAdapter(adapter);
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Toast.makeText(getActivity().getApplicationContext(), position+" Clicked  " +Countries[position], Toast.LENGTH_SHORT).show();
-                moveToNewActivity(position);
-            }
-        });
+        int orientation = getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) // In landscape
+        {
+            listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    //Toast.makeText(getActivity().getApplicationContext(), position+" Clicked  " +Countries[position], Toast.LENGTH_SHORT).show();
+                    communicator.sendData(arrayList.get(position));
+                }
+            });
+        }
+        else {
+            listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    //Toast.makeText(getActivity().getApplicationContext(), position+" Clicked  " +Countries[position], Toast.LENGTH_SHORT).show();
+                    moveToNewActivity(position);
+                }
+            });
+        }
         return view;
     }
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState)
+    {
+        super.onActivityCreated(savedInstanceState);
+        communicator=((Communicator) getActivity());
 
+    }
+    @Override
+    public void onSaveInstanceState(Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+    }
     private class GetJson extends Thread {
         @Override
         public void run()

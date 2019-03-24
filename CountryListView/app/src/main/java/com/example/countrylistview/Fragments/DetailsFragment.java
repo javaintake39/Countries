@@ -1,8 +1,6 @@
 package com.example.countrylistview.Fragments;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -48,11 +46,26 @@ public class DetailsFragment extends Fragment {
         if(bundle != null)
         {
             countryDAO = (CountryDAO) getArguments().getSerializable(KeyTags.objectKey);
-            txtRank.setText(countryDAO.getRank());
-            txtCountry.setText(countryDAO.getCountry());
-            txtPopulation.setText(countryDAO.getPopulation());
-            Log.i("img",countryDAO.getFlag());
-            new MyAsyncTask(DetailsFragment.this).execute(countryDAO.getFlag());
+            setData(countryDAO);
         }
+    }
+    @Override
+    public void onSaveInstanceState(Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+    }
+
+    public void sendData(CountryDAO countryDAO)
+    {
+        setData(countryDAO);
+    }
+
+    public void setData(CountryDAO countryDAO)
+    {
+        txtRank.setText(countryDAO.getRank());
+        txtCountry.setText(countryDAO.getCountry());
+        txtPopulation.setText(countryDAO.getPopulation());
+        Log.i("img",countryDAO.getFlag());
+        new MyAsyncTask(DetailsFragment.this).execute(countryDAO.getFlag());
     }
 }
